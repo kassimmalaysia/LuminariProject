@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
-import Module from '../components/Module';
-import SideBar from '../widgets/SideBar'
-import Timetable from '../widgets/Timetable';
+import Module from './Module';
+import SideBar from './SideBar'
+import Timetable from './Timetable';
 
 const TimetablePage = () => {
   const [op,setOption]=useState(1);

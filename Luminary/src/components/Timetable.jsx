@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import React from 'react'
-import TimeSlot from '../components/TimeSlot'
+import TimeSlot from './TimeSlot'
 
 const table= (option,i)=>{
     return (

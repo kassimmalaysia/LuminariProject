@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard, Auth } from "@/layouts";
-import Index from "./pages/Index";
-import TimetablePage from "./pages/TimetablePage";
-import SideBar from "./widgets/SideBar";
+import Index from "./components/Index";
+import TimetablePage from "./components/TimetablePage";
+import SideBar from "./components/SideBar";
 import NullPage from "./components/NullPage";
 
 function App() {

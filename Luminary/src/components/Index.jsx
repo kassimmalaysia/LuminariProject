@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from '../widgets/SideBar'
+import SideBar from './SideBar'
 
 const Index = () => {
   return (
