@@ -1,5 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard, Auth } from "@/layouts";
+import Index from "./pages/Index";
+import TimetablePage from "./pages/TimetablePage";
+import SideBar from "./widgets/SideBar";
+import NullPage from "./components/NullPage";
 
 function App() {
   return (
@@ -7,6 +11,9 @@ function App() {
       <Route path="/dashboard/*" element={<Dashboard />} />
       <Route path="/auth/*" element={<Auth />} />
       <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+      <Route path="/" element={<SideBar />} />
+          <Route path="/Timetable" element={<TimetablePage />} />
+          <Route path="/*" element={<NullPage />}/>
     </Routes>
   );
 }
