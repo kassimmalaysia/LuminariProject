@@ -34,20 +34,13 @@ const TimetablePage = () => {
   arr[2][5][8]+=modules["SC2005"].index["10002"]["Friday 14:30-16:30"];
   return (
     <div className="flex">
-        <SideBar className="flex-initial" />
-        <div className='flex-column'>
-            <div className="h-1/2 min-h-fit flex-1 flex border-4 border-red-300">
-                {/* option bar */}
-                <div className='border-4 border-red-300 flex-initial h-full w-4 min-w-min'>
-                    <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOption(1);}}>Option:1</button>
-                    <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOption(2);}}>Option:2</button>
-                </div>
-                <Timetable option={arr[op]}/>
+        <div className="h-1/2 min-h-fit flex-1 flex border-4 ">
+            {/* option bar */}
+            <div className='border-4 flex-initial h-full w-4 min-w-min'>
+                <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOption(1);}}>Option:1</button>
+                <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOption(2);}}>Option:2</button>
             </div>
-            <div className="flex-initial w-full border-2 border-black">
-                <button className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300' onClick={()=>{location="/Modules/SC2005"}}>SC2005</button>
-                <button className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300' onClick={()=>{location="/Modules/SC2006"}}>SC2006</button>
-            </div>
+            <Timetable option={arr[op]}/>
         </div>
     </div>
   )
