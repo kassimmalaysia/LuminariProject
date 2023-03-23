@@ -11,7 +11,7 @@ import {
     {
         path:"/Modules/SC2005",
         code:"SC2005",
-        index:"10001",
+        index:["","10001","10002"],
         moduleName:"OS",
         au:"3",
         examSchedule:"None",
@@ -19,7 +19,7 @@ import {
     {
         path:"/Modules/SC2006",
         code:"SC2006",
-        index:"10001",
+        index:["","10001","10001"],
         moduleName:"SE",
         au:"3",
         examSchedule:"None",

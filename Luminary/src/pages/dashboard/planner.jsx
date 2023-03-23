@@ -9,6 +9,7 @@ import {
   Tooltip,
   Progress,
 } from "@material-tailwind/react";
+import { useState } from 'react';
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 import TimetablePage from "@/components/TimetablePage";
@@ -16,6 +17,7 @@ import plannerData from "@/data/planner-data";
 
 export function Planner() {
   var year=2023;
+  const [op,setOption]=useState(1);
   var sem=2;
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -26,7 +28,7 @@ export function Planner() {
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <TimetablePage />
+          <TimetablePage op={op} setOp={setOption}/>
         </CardBody>
       </Card>
       <Card>
@@ -52,7 +54,7 @@ export function Planner() {
                 {plannerData.map(({path,code,index,moduleName,au,examSchedule})=>
                   <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location=path}}>
                     <th>{code}</th>
-                    <th>{index}</th>
+                    <th>{index[op]}</th>
                     <th>{moduleName}</th>
                     <th>{au}</th>
                     <th>{examSchedule}</th>
