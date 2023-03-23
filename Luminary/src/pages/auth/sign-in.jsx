@@ -37,7 +37,7 @@ export function SignIn() {
             </div>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
+            <Button variant="gradient" fullWidth onClick={()=>{location="/dashboard/home"}}>
               Sign In
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">

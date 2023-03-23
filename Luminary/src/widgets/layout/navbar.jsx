@@ -53,47 +53,14 @@ export function Navbar({ brandName, routes, action }) {
             {brandName}
           </Typography>
         </Link>
-        <div className="hidden lg:block">{navList}</div>
-        {React.cloneElement(action, {
-          className: "hidden lg:inline-block",
-        })}
-        <IconButton
-          variant="text"
-          size="sm"
-          className="ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <XMarkIcon strokeWidth={2} className="h-6 w-6" />
-          ) : (
-            <Bars3Icon strokeWidth={2} className="h-6 w-6" />
-          )}
-        </IconButton>
       </div>
-      <MobileNav open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          {React.cloneElement(action, {
-            className: "w-full block lg:hidden",
-          })}
-        </div>
-      </MobileNav>
     </MTNavbar>
   );
 }
 
 Navbar.defaultProps = {
   brandName: "Luminary",
-  action: (
-    <a
-      href="https://www.creative-tim.com/product/material-tailwind-dashboard-react"
-      target="_blank"
-    >
-      <Button variant="gradient" size="sm" fullWidth>
-        free download
-      </Button>
-    </a>
-  ),
+  action: (<></>),
 };
 
 Navbar.propTypes = {
