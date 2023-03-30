@@ -1,5 +1,4 @@
 import moduleData from '@/data/module-data';
-import plannerData from '@/data/planner-data';
 import React from 'react'
 import { useState } from 'react';
 import Module from './Module';
@@ -10,33 +9,12 @@ import Timetable from './Timetable';
 
 const TimetablePage = ({op,setOp,plannerData}) => {
   var arr=[];
-  var modules=moduleData;
+  var modules=JSON.parse(JSON.stringify(moduleData));
   var modules_added=plannerData;
-  for(let i=0;i<3;++i){
-    arr.push([]);
-    for(let j=0;j<=6;j++){
-        arr[i].push([]);
-        for(let k=0;k<=9;k++){
-            arr[i][j].push("")
-        }
-    }
-  }
   var cnt=0;
-  var keys=[];
-  modules_added.map((code)=>{keys.push(code);});
-  arr.push([])
-  // Object.keys(modules).forEach((key,index)=>{
-  //   cnt++;
-  //   arr.push([])
-  //   for(let j=0;j<=6;j++){
-  //     arr[cnt].push([]);
-  //     for(let k=0;k<=9;k++){
-  //         arr[cnt][j].push("")
-  //     }
-  //   }
-  //   var temp=modules[key].index;
-  //   // Object.keys(temp).forEach((key,index)=>{arr[cnt][int(key/10)][key%10]+=temp[key];});
-  // })
+  var keys=Object.values(modules_added);
+  arr.push([]);
+  console.log(keys);
   function add(pos,lis){
     if(pos<0){
       cnt++;
@@ -51,9 +29,9 @@ const TimetablePage = ({op,setOp,plannerData}) => {
     else{
       var index_keys=Object.keys(modules[keys[pos]]["index"]);
       for(var i in index_keys){
-        lis.push([modules[keys[pos]]["index"][i]]);
-        add(pos-1,lis);
-        lis.pop();
+        // lis.push([modules[keys[pos]]["index"][i]]);
+        // add(pos-1,lis);
+        // lis.pop();
       }
       
     }
