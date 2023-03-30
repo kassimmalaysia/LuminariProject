@@ -41,7 +41,6 @@ const Timetable = ({option}) =>{
                     {table(option,7)}
                     {table(option,8)}
                     {table(option,9)}
-                    {table(option,10)}
                 </tbody>
             </table>
         </div>

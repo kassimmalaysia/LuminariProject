@@ -1,41 +1,69 @@
+import moduleData from '@/data/module-data';
+import plannerData from '@/data/planner-data';
 import React from 'react'
 import { useState } from 'react';
 import Module from './Module';
 import SideBar from './SideBar'
 import Timetable from './Timetable';
 
-const TimetablePage = ({op,setOp}) => {
+
+
+const TimetablePage = ({op,setOp,plannerData}) => {
   var arr=[];
-  var modules={"SC2006":new Module("TestSC2006","SC2006"),"SC2005":new Module("TestSC2005","SC2005")};
-  modules["SC2006"].updateIndex("10001",{"Monday 9:30-10:30":"SC2006 Lecture LT-42","Thursday 14:30-16:30":"SC2006 Lab SW3_2 14:30-16:30"})
-  modules["SC2005"].updateIndex("10001",{"Tuesday 9:30-10:30":"SC2005 Lecture LT-40","Wednesday 14:30-16:30":"SC2005 Lab SW3_3 14:30-16:30"})
-  modules["SC2005"].updateIndex("10002",{"Tuesday 9:30-10:30":"SC2005 Lecture LT-40","Friday 14:30-16:30":"SC2005 Lab SW3_3 14:30-16:30"})
+  var modules=moduleData;
+  var modules_added=plannerData;
   for(let i=0;i<3;++i){
     arr.push([]);
     for(let j=0;j<=6;j++){
         arr[i].push([]);
-        for(let k=0;k<=10;k++){
+        for(let k=0;k<=9;k++){
             arr[i][j].push("")
         }
     }
   }
-  arr[1][1][2]+=modules["SC2006"].index["10001"]["Monday 9:30-10:30"];
-  arr[1][4][7]+=modules["SC2006"].index["10001"]["Thursday 14:30-16:30"];
-  arr[1][4][8]+=modules["SC2006"].index["10001"]["Thursday 14:30-16:30"];
-  arr[1][2][2]+=modules["SC2005"].index["10001"]["Tuesday 9:30-10:30"];
-  arr[1][3][7]+=modules["SC2005"].index["10001"]["Wednesday 14:30-16:30"];
-  arr[1][3][8]+=modules["SC2005"].index["10001"]["Wednesday 14:30-16:30"];
-  arr[2][1][2]+=modules["SC2006"].index["10001"]["Monday 9:30-10:30"];
-  arr[2][4][7]+=modules["SC2006"].index["10001"]["Thursday 14:30-16:30"];
-  arr[2][4][8]+=modules["SC2006"].index["10001"]["Thursday 14:30-16:30"];
-  arr[2][2][2]+=modules["SC2005"].index["10002"]["Tuesday 9:30-10:30"];
-  arr[2][5][7]+=modules["SC2005"].index["10002"]["Friday 14:30-16:30"];
-  arr[2][5][8]+=modules["SC2005"].index["10002"]["Friday 14:30-16:30"];
+  var cnt=0;
+  var keys=[];
+  modules_added.map((code)=>{keys.push(code);});
+  arr.push([])
+  // Object.keys(modules).forEach((key,index)=>{
+  //   cnt++;
+  //   arr.push([])
+  //   for(let j=0;j<=6;j++){
+  //     arr[cnt].push([]);
+  //     for(let k=0;k<=9;k++){
+  //         arr[cnt][j].push("")
+  //     }
+  //   }
+  //   var temp=modules[key].index;
+  //   // Object.keys(temp).forEach((key,index)=>{arr[cnt][int(key/10)][key%10]+=temp[key];});
+  // })
+  function add(pos,lis){
+    if(pos<0){
+      cnt++;
+      arr.push([])
+      for(let j=0;j<=6;j++){
+        arr[cnt].push([]);
+        for(let k=0;k<=9;k++){
+            arr[cnt][j].push("")
+        }
+      }
+    }
+    else{
+      var index_keys=Object.keys(modules[keys[pos]]["index"]);
+      for(var i in index_keys){
+        lis.push([modules[keys[pos]]["index"][i]]);
+        add(pos-1,lis);
+        lis.pop();
+      }
+      
+    }
+  }
   return (
     <div className="flex">
         <div className="h-1/2 min-h-fit flex-1 flex border-4 ">
             {/* option bar */}
             <div className='border-4 flex-initial h-full w-4 min-w-min'>
+
                 <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOp(1);}}>Option:1</button>
                 <button className="py-4 center w-full hover:bg-gray-300" onClick={()=>{setOp(2);}}>Option:2</button>
             </div>

@@ -13,11 +13,13 @@ import { useState } from 'react';
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 import TimetablePage from "@/components/TimetablePage";
-import plannerData from "@/data/planner-data";
+import plannerData from "./../../data/planner-data.json";
 
 export function Planner() {
   var year=2023;
-  const [op,setOption]=useState(1);
+  var planner_data=JSON.parse(JSON.stringify(plannerData));
+  console.log(Object.entries(planner_data));
+  const [op,setOption]=useState(0);
   var sem=2;
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -28,7 +30,8 @@ export function Planner() {
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <TimetablePage op={op} setOp={setOption}/>
+          <div>asdasd</div>
+          {/* <TimetablePage op={op} setOp={setOption} plannerData={planner_data}/> */}
         </CardBody>
       </Card>
       <Card>
@@ -51,14 +54,17 @@ export function Planner() {
               </thead>
               
               <tbody>
-                {plannerData.map(({path,code,index,moduleName,au,examSchedule})=>
+                {
+                  Object.values(planner_data).map((value)=>
+
                   <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location=path}}>
-                    <th>{code}</th>
-                    <th>{index[op]}</th>
-                    <th>{moduleName}</th>
-                    <th>{au}</th>
-                    <th>{examSchedule}</th>
+                    <th>{value.code}</th>
+                    <th>{value.index[op]}</th>
+                    <th>{value.moduleName}</th>
+                    <th>{value.au}</th>
+                    <th>{value.examSchedule}</th>
                   </tr>
+                  
                 )}
               </tbody>
               
