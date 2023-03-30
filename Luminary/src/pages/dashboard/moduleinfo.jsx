@@ -7,10 +7,12 @@ import {
   Chip,
   Tooltip,
   Progress,
+  Button
+  
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
-
+import { Link } from "react-router-dom";
 export function Moduleinfo() {
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -91,6 +93,19 @@ export function Moduleinfo() {
                               SWL3
                             </Typography>
                       </td>
+                      <Link to = "/dashboard/Tables" >
+                      <td className={className}>
+                        <Typography
+                          as="a"
+                          href="#"
+                          className="text-s font-semibold text-blue-gray-600"
+                        >
+                          <Tooltip content="Material Tailwind">
+                          <Button variant="gradient">Add To Timetable</Button>
+                        </Tooltip>
+                        </Typography>
+                      </td>
+                      </Link>
                     </tr>
                   );
                 }
