@@ -6,8 +6,9 @@ import {
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Home, Profile, Tables, Modules} from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
+import Moduleinfo from "./pages/dashboard/moduleinfo";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -37,9 +38,13 @@ export const routes = [
       },
       {
         icon: <BellIcon {...icon} />,
-        name: "notifactions",
-        path: "/notifactions",
-        element: <Notifications />,
+        name: "Modules",
+        path: "/Modules",
+        element: <Modules />,
+      },
+      {
+        path: "/moduleinfo",
+        element: <Moduleinfo />,
       },
     ],
   },
@@ -64,3 +69,4 @@ export const routes = [
 ];
 
 export default routes;
+ 
