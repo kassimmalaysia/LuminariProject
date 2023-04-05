@@ -5,9 +5,13 @@ import {
   BellIcon,
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
+  ArrowTopRightOnSquareIcon,
+  CalendarIcon,
+  
+  
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Planner, Notifications } from "@/pages/dashboard";
-import { SignIn, SignUp } from "@/pages/auth";
+import { Home, Profile, Planner, ModuleInfo, Calendar,Schedule } from "@/pages/dashboard";
+import { SignIn,SignOut} from "@/pages/auth";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -37,28 +41,40 @@ export const routes = [
       },
       {
         icon: <BellIcon {...icon} />,
-        name: "notifactions",
-        path: "/notifactions",
-        element: <Notifications />,
+        name: "Module Info",
+        path: "/ModuleInfo",
+        element: <ModuleInfo />,
       },
+      {
+        icon: <CalendarIcon {...icon} />,
+        name: "Calendar",
+        path: "/Calendar",
+        element: <Calendar />,
+      },
+      {
+       
+        path: "/Schedule",
+        element: <Schedule />,
+      },
+      
+      
     ],
   },
+  
   {
-    title: "auth pages",
+    // title: "auth pages",
     layout: "auth",
     pages: [
       {
-        icon: <ArrowRightOnRectangleIcon {...icon} />,
-        name: "sign in",
+        icon: <ArrowTopRightOnSquareIcon {...icon} />,
+        name: "sign-out",
+        path: "/sign-out",
+        element: <SignOut />,
+      },
+      {
         path: "/sign-in",
         element: <SignIn />,
       },
-      // {
-      //   icon: <UserPlusIcon {...icon} />,
-      //   name: "sign up",
-      //   path: "/sign-up",
-      //   element: <SignUp />,
-      // },
     ],
   },
 ];

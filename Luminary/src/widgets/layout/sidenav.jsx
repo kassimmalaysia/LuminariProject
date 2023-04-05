@@ -29,7 +29,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
           sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
         }`}
       >
-        <Link to="/" className="flex items-center gap-4 py-6 px-8">
+        < div className="flex items-center gap-4 py-6 px-8">
           <Avatar src={brandImg} size="sm" />
           <Typography
             variant="h6"
@@ -37,7 +37,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
           >
             {brandName}
           </Typography>
-        </Link>
+        </div>
         <IconButton
           variant="text"
           color="white"
