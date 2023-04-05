@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs,doc} from "firebase/firestore";
 import {
   Card,
   CardBody,
@@ -49,20 +49,30 @@ const useStyles = makeStyles({
 
 
 export function Profile() {
-  const {currentUser} = useAuthValue();
-  // const uid = currentUser.uid;
-  const [users,setUsers] = useState([]);
-  const userRef = collection(db,"users")
   const classes = useStyles();
+  const {currentUser} = useAuthValue();
+  const uid = currentUser.uid;
+  console.log(uid)
+
+
+  const [users,setUsers] = useState([]);
+  
+  const userRef = query(collection(db,"users"),where('UID','==', uid));
+ 
+  
+  
   useEffect (()=> {
     const getUsers = async() => {
       const data = await getDocs(userRef);
-      setUsers(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+      setUsers(data.docs.map((doc) => ({...doc.data()})));
     };
     getUsers();
   },[]);
+ 
   return(
+   
     <div>
+   
     {users.map((currentUser) => {
        return(
         <div>

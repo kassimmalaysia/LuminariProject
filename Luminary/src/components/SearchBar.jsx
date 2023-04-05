@@ -4,6 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import { ModuleInfo } from "@/pages/dashboard"; 
+import ModuleData from "@/data/module-data.json"
 
 
 
@@ -12,7 +13,7 @@ import { ModuleInfo } from "@/pages/dashboard";
 function SearchBar({ data,placeHolder }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
- 
+  var module_data=JSON.parse(JSON.stringify(ModuleData));
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -63,12 +64,12 @@ function SearchBar({ data,placeHolder }) {
             return (
               
               
-              <Link to={{pathname: "/dashboard/ModuleInfo"}}>
+              <Link to={"/dashboard/ModuleInfo"}>
               <a className="dataItem" 
               
               onClick={() => handleItemClick(value)} >
                 
-                
+                {/*  */}
                 <p>{value.title} </p>
                
               </a>

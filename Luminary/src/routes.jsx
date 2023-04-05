@@ -6,8 +6,11 @@ import {
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
   ArrowTopRightOnSquareIcon,
+  CalendarIcon,
+  
+  
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Planner, ModuleInfo } from "@/pages/dashboard";
+import { Home, Profile, Planner, ModuleInfo, Calendar,Schedule } from "@/pages/dashboard";
 import { SignIn,SignOut} from "@/pages/auth";
 
 const icon = {
@@ -41,6 +44,17 @@ export const routes = [
         name: "Module Info",
         path: "/ModuleInfo",
         element: <ModuleInfo />,
+      },
+      {
+        icon: <CalendarIcon {...icon} />,
+        name: "Calendar",
+        path: "/Calendar",
+        element: <Calendar />,
+      },
+      {
+       
+        path: "/Schedule",
+        element: <Schedule />,
       },
       
       

@@ -29,6 +29,7 @@ import {
   ordersOverviewData,
 } from "@/data";
 
+
 export function Home() {
   return (
     <div className="flex space-x-6">

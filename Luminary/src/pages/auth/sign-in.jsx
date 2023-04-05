@@ -28,6 +28,7 @@ export function SignIn() {
   const [loading, setLoading] = useState(false)
   const { currentUser } = useAuthValue();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const login = async () => {
     try {
@@ -75,10 +76,11 @@ export function SignIn() {
           <CardBody className="flex flex-col gap-4">
         
             <Input  label="Email" size="lg"  onChange={(event) =>{setLoginEmail(event.target.value)}}/>
-            <Input  label="Password" size="lg"onChange={(event) =>{setLoginPassword(event.target.value)}} 
+            <Input  label="Password" size="lg" type= "password" 
+            onChange={(event) =>{setLoginPassword(event.target.value)}} 
              onKeyDown={(event) => { if (event.key === 'Enter') { login() } }}/>
             {error && (
-              <Typography color="red" className="text-center">
+              <Typography color="red"className="text-center"  >
                 {error}
               </Typography>
             )}
