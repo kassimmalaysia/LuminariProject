@@ -39,6 +39,7 @@ export function Planner() {
       for(var i in lis){
         modules_added[lis[i][0]]["index"].push(lis[i][1]);
         for(var j in lis[i][2]){
+          if(arr[cnt][Math.floor(j/10)][j%10].length>0){arr[cnt][Math.floor(j/10)][j%10]+="*";}
           arr[cnt][Math.floor(j/10)][j%10]+=String(lis[i][2][j]);
         }
       }
