@@ -1,4 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect} from "react";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+
+
+import { auth } from "../../firebase";
 import {
   Card,
   CardHeader,
@@ -9,8 +17,43 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import {useAuthValue} from "@/context/AuthContext"
 
 export function SignIn() {
+ 
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [user, setUser] = useState({});
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const { currentUser } = useAuthValue();
+  const navigate = useNavigate();
+
+  const login = async () => {
+    try {
+      setLoading(true);
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      setError("");
+      setLoading(false);
+      navigate("/dashboard/home", { replace: true });
+      console.log(user);
+      
+    } catch(error)  {
+      setError("Incorrect Email/Password");
+      setLoading(false);
+    }
+   
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+  };
+  
+  
   return (
     <>
       <img
@@ -26,34 +69,26 @@ export function SignIn() {
             className="mb-4 grid h-28 place-items-center"
           >
             <Typography variant="h3" color="white">
-              Sign In
+              Welcome! 
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <Input type="email" label="Email" size="lg" />
-            <Input type="password" label="Password" size="lg" />
-            <div className="-ml-2.5">
-              <Checkbox label="Remember Me" />
-            </div>
+        
+            <Input  label="Email" size="lg"  onChange={(event) =>{setLoginEmail(event.target.value)}}/>
+            <Input  label="Password" size="lg"onChange={(event) =>{setLoginPassword(event.target.value)}} 
+             onKeyDown={(event) => { if (event.key === 'Enter') { login() } }}/>
+            {error && (
+              <Typography color="red" className="text-center">
+                {error}
+              </Typography>
+            )}
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth onClick={()=>{location="/dashboard/home"}}>
-              Sign In
+            <Button variant="gradient" fullWidth onClick={login} >
+              {loading ? "Loading..." : "Sign In"}
             </Button>
-            <Typography variant="small" className="mt-6 flex justify-center">
-              Don't have an account?
-              <Link to="/auth/sign-up">
-                <Typography
-                  as="span"
-                  variant="small"
-                  color="blue"
-                  className="ml-1 font-bold"
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </Typography>
           </CardFooter>
+          
         </Card>
       </div>
     </>
