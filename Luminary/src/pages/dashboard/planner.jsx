@@ -11,16 +11,52 @@ import {
 } from "@material-tailwind/react";
 import { useState } from 'react';
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
 import TimetablePage from "@/components/TimetablePage";
-import plannerData from "./../../data/planner-data.json";
+import plannerData from "@/data/planner-data.json";
+import moduleData from "@/data/module-data.json"
 
 export function Planner() {
   var year=2023;
-  var planner_data=JSON.parse(JSON.stringify(plannerData));
-  console.log(Object.entries(planner_data));
-  const [op,setOption]=useState(0);
+  var modules_added=JSON.parse(JSON.stringify(plannerData));
+  const [op,setOption]=useState(1);
   var sem=2;
+  var arr=[];
+  var modules=JSON.parse(JSON.stringify(moduleData));
+  var cnt=0;
+  var keys=Object.keys(modules_added);
+  arr.push([]);
+  var lis=[];
+  function add(pos){
+    if(pos<0){
+      cnt++;
+      arr.push([])
+      for(let j=0;j<=6;j++){
+        arr[cnt].push([]);
+        for(let k=0;k<=9;k++){
+            arr[cnt][j].push("")
+        }
+      }
+      for(var i in lis){
+        modules_added[lis[i][0]]["index"].push(lis[i][1]);
+        for(var j in lis[i][2]){
+          arr[cnt][Math.floor(j/10)][j%10]+=String(lis[i][2][j]);
+        }
+      }
+    }
+    else{
+      var index_keys=Object.keys(modules[keys[pos]]["index"]);
+      for(var i in index_keys){
+        lis.push([keys[pos],index_keys[i],modules[keys[pos]]["index"][index_keys[i]]]);
+        add(pos-1);
+        lis.pop();
+      }
+    }
+  }
+  add(Object.keys(modules_added).length-1);
+  console.log(modules_added);
+  console.log(arr);
+  var temp=[];
+  for(let i=1;i<=cnt;++i) temp.push(i);
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
@@ -30,8 +66,8 @@ export function Planner() {
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <div>asdasd</div>
-          {/* <TimetablePage op={op} setOp={setOption} plannerData={planner_data}/> */}
+          {/* <div>asdasd</div> */}
+          <TimetablePage op={op} setOp={setOption} arr={arr} temp={temp}/>
         </CardBody>
       </Card>
       <Card>
@@ -54,10 +90,11 @@ export function Planner() {
               </thead>
               
               <tbody>
+                {()=>{console.log(modules_added)}}
                 {
-                  Object.values(planner_data).map((value)=>
+                  Object.values(modules_added).map((value)=>
 
-                  <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location=path}}>
+                  <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location=value.path}}>
                     <th>{value.code}</th>
                     <th>{value.index[op]}</th>
                     <th>{value.moduleName}</th>
@@ -66,6 +103,7 @@ export function Planner() {
                   </tr>
                   
                 )}
+                
               </tbody>
               
             </table>
