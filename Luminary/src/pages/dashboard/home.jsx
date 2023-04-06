@@ -28,18 +28,46 @@ import {
   projectsTableData,
   ordersOverviewData,
 } from "@/data";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useEffect, useState } from 'react';
 
 
 export function Home() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("authuser:", authUser);
+      setUser(authUser);
+      if(authUser== null)
+      {
+        console.log(authUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+      
+    });
+
+    return unsubscribe;
+    
+  }, []);
+  
+ 
+
+  
   return (
     <div className="flex space-x-6">
       <Card className="flex py-6 w-96">
         <CardHeader color="blue" className="relative h-50">
+        <a href="https://www.ntu.edu.sg/news/detail/ntu-singapore-rises-10-places-to-place-36th-in-times-higher-education-global-rankings" target="_blank" rel="noopener noreferrer"> 
+        {/* // add the link here */}
           <img
             src="./../public/img/ntu-news-image-1.jpg"
             alt="img-blur-shadow"
             className="h-full w-full"
           />
+          </a>
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
@@ -59,11 +87,14 @@ export function Home() {
       </Card>
       <Card className="flex py-6 w-96">
         <CardHeader color="blue" className="relative h-50">
+       
+        <a href=" https://www.ntu.edu.sg/news/detail/class-of-2022-continue-to-be-in-demand-and-earn-higher-salaries" target="_blank" rel="noopener noreferrer"> 
           <img
             src="./../public/img/ntu-news-image-4.jpg"
             alt="img-blur-shadow"
             className="h-full w-full"
           />
+          </a>
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
@@ -83,11 +114,13 @@ export function Home() {
       </Card>
       <Card className="flex py-6 w-96">
         <CardHeader color="blue" className="relative h-50">
+        <a href=" https://www.ntu.edu.sg/news/detail/a-new-approach-to-stabilise-perovskite-solar-cells-without-lead" target="_blank" rel="noopener noreferrer"> 
           <img
             src="./../public/img/ntu-news-image-3.jpg"
             alt="img-blur-shadow"
             className="h-full w-full"
           />
+          </a>
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h5" className="mb-2">
@@ -107,6 +140,7 @@ export function Home() {
       </Card>
     </div>
   );
+
 }
 
 export default Home;

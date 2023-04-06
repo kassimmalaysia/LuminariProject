@@ -9,13 +9,33 @@ import {
   Tooltip,
   Progress,
 } from "@material-tailwind/react";
-import { useState } from 'react';
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import TimetablePage from "@/components/TimetablePage";
 import plannerData from "@/data/planner-data.json";
 import moduleData from "@/data/module-data.json"
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useEffect, useState } from 'react';
 
 export function Planner() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("authuser:", authUser);
+      setUser(authUser);
+      if(authUser== null)
+      {
+        console.log(authUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+      
+    });
+
+    return unsubscribe;
+    
+  }, []);
   var year=2023;
   var modules_added=JSON.parse(JSON.stringify(plannerData));
   const [op,setOption]=useState(1);

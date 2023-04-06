@@ -3,6 +3,9 @@
     display: flex;
     margin-bottom: 20px;
   }
+  .dataResult .dataItem.active {
+    background-color: lightgrey;
+  }
   
   .search input {
     background-color:   #f5f5f5;

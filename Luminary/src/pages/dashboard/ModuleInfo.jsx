@@ -14,12 +14,38 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 import { Input } from "@material-tailwind/react";
 import { blue } from "@mui/material/colors";
-import { Link } from "react-router-dom";
 import { Dashboard } from "@/layouts";
+import { useLocation } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useEffect, useState } from 'react';
 
 
 export function ModuleInfo() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("authuser:", authUser);
+      setUser(authUser);
+      if(authUser== null)
+      {
+        console.log(authUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+      
+    });
+
+    return unsubscribe;
+    
+  }, []);
+  const location = useLocation();
+  const title = location.state?.title || '';
+  console.log(title)
+  // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   return (
+    
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
@@ -71,7 +97,7 @@ export function ModuleInfo() {
                               variant="h5"
                               className="text-s font-semibold text-blue-gray-600"
                             >
-                              SC2006
+                              {title}
                             </Typography>
                           </div>
                         </div>

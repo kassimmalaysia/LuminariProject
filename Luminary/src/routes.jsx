@@ -42,17 +42,17 @@ export const routes = [
       {
         icon: <BellIcon {...icon} />,
         name: "Module Info",
-        path: "/ModuleInfo",
+        path: "/module-info",
         element: <ModuleInfo />,
       },
       {
         icon: <CalendarIcon {...icon} />,
         name: "Calendar",
-        path: "/Calendar",
+        path: "/calendar",
         element: <Calendar />,
       },
       {
-       
+        name: "",
         path: "/Schedule",
         element: <Schedule />,
       },

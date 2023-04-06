@@ -20,13 +20,14 @@ import {
   Cog6ToothIcon,
   PencilIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
 import { ProfileInfoCard, MessageCard,StatisticsCard } from "@/widgets/cards";
 import { platformSettingsData, conversationsData, projectsData } from "@/data";
 import { Box, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from "react";
 import {useAuthValue} from "@/context/AuthContext"
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const useStyles = makeStyles({
   boldText: {
@@ -49,6 +50,24 @@ const useStyles = makeStyles({
 
 
 export function Profile() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("authuser:", authUser);
+      setUser(authUser);
+      if(authUser== null)
+      {
+        console.log(authUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+      
+    });
+
+    return unsubscribe;
+    
+  }, []);
   const classes = useStyles();
   const {currentUser} = useAuthValue();
   const uid = currentUser.uid;

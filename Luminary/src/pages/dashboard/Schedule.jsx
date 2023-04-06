@@ -12,8 +12,28 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useEffect, useState } from 'react';
 export function Schedule() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("authuser:", authUser);
+      setUser(authUser);
+      if(authUser== null)
+      {
+        console.log(authUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+      
+    });
+
+    return unsubscribe;
+    
+  }, []);
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
