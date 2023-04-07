@@ -18,6 +18,7 @@ const { localStorage } = window;
 
 function App() {
   const navigate = useNavigate();
+  localStorage.setItem("user", null);
   const [currentUser, setCurrentUser] = useState(null)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");

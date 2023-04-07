@@ -38,7 +38,7 @@ export function SignIn() {
         auth,
         loginEmail,
         loginPassword,
-        auth.setPersistence('session'),
+       
       );
       
       setError("");
