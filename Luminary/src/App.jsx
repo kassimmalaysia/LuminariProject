@@ -25,7 +25,7 @@ function App() {
       setCurrentUser(JSON.parse(storedUser));
     } else {
     onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
+      setCurrentUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       console.log(localStorage)
       if(currentUser == undefined)

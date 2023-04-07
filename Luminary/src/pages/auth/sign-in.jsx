@@ -33,11 +33,14 @@ export function SignIn() {
   const login = async () => {
     try {
       setLoading(true);
+      // await auth.setPersistence('session');
       const user = await signInWithEmailAndPassword(
         auth,
         loginEmail,
-        loginPassword
+        loginPassword,
+        auth.setPersistence('session'),
       );
+      
       setError("");
       setLoading(false);
       navigate("/dashboard/home", { replace: true });

@@ -188,6 +188,10 @@ const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==",
             </table>
           </CardBody>
         </Card>
+        <div>
+   
+    {reviews.map((reviews) => {
+       return(
         <Card>
           <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
             <Typography variant="h6" color="white">
@@ -245,7 +249,7 @@ const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==",
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {review.rating}
+                            {reviews.rating}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -253,7 +257,7 @@ const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==",
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {review.review}
+                            {reviews.review}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -262,7 +266,7 @@ const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==",
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {review.date}
+                              {reviews.date}
                             </Typography>
                           </div>
                         </td>
@@ -275,6 +279,11 @@ const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==",
             </table>
           </CardBody>
         </Card>
+       );
+        })}
+        
+        </div>
+        
       </div>
     );
      

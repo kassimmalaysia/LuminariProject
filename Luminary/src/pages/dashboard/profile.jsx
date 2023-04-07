@@ -50,12 +50,14 @@ const useStyles = makeStyles({
 
 
 export function Profile() {
+  
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log("authuser:", authUser);
       setUser(authUser);
+      
       if(authUser== null || undefined)
       {
         console.log(authUser)
