@@ -50,9 +50,7 @@ export function SignIn() {
    
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
+ 
   
   
   return (

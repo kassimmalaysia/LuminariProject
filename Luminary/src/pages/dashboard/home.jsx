@@ -30,18 +30,17 @@ import {
 } from "@/data";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useLayoutEffect } from 'react';
 
 
 export function Home() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log("authuser:", authUser);
       setUser(authUser);
-      if(authUser== null)
+      if(authUser== null || undefined)
       {
         console.log(authUser)
         navigate("/auth/sign-in", { replace: true });
@@ -51,9 +50,8 @@ export function Home() {
 
     return unsubscribe;
     
-  }, []);
-  
- 
+  }, [[navigate, user]]);
+
 
   
   return (

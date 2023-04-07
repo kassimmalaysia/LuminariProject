@@ -22,6 +22,8 @@ export function SignOut() {
     try {
       await auth.signOut();
       console.log(auth);
+      localStorage.clear();
+      console.log(localStorage);
       console.log("Sign out")
       navigate("/auth/sign-in", { replace: true });
      

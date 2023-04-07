@@ -15,25 +15,21 @@ import { authorsTableData, projectsTableData } from "@/data";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useEffect, useState } from 'react';
+import { db } from "@/firebase";
+import { collection, doc, getDocs} from "firebase/firestore";
+
 export function Schedule() {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
+ 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      console.log("authuser:", authUser);
-      setUser(authUser);
-      if(authUser== null)
-      {
-        console.log(authUser)
-        navigate("/auth/sign-in", { replace: true });
-      }
-      
-    });
+  
 
-    return unsubscribe;
-    
-  }, []);
+    const getDetail = async ()=>{
+      const data = await getDocs(detailCollectionRef);
+      setDetail(data.docs.map((doc)=>({...doc.data(), id: doc.id})))
+    }
+    getDetail()  
+  }, [])
+  
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
@@ -46,7 +42,7 @@ export function Schedule() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["Index", "Type", "Time", "Venue", ""].map((el) => (
+                {["Module", "Type", "Time", "Venue", ""].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -62,16 +58,15 @@ export function Schedule() {
               </tr>
             </thead>
             <tbody>
-              {authorsTableData.map(
-                ({ img, name, email, job, online, date }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === authorsTableData.length - 1
+            {moduleDetail.map((detail, key) => {
+                   const className = `py-3 px-5 ${
+                    key === detailCollectionRef.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
                   }`;
 
                   return (
-                    <tr key={name}>
+                    <tr>
                       <td className={className}>
                         <div className="flex items-center gap-4">
                           <div>
@@ -80,7 +75,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              10705
+                              {detail.module}
                             </Typography>
                           </div>
                         </div>
@@ -91,7 +86,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              Lab
+                              {detail.type}
                             </Typography>
               
                       </td>
@@ -101,7 +96,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              12:30 - 2:30
+                              {detail.time}
                             </Typography>
                       </td>
                       <td className={className}>
@@ -110,19 +105,19 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              SWL3
+                              {detail.venue}
                             </Typography>
                       </td>
                       <Link to = "/dashboard/planner" >
                       <td className={className}>
                         <Typography
-                          as="a"
+                         
                           href="#"
-                          className="text-s font-semibold text-blue-gray-600"
+                         
                         >
-                          <Tooltip content="Material Tailwind">
+                          {/* <Tooltip> */}
                           <Button variant="gradient">Add To Timetable</Button>
-                        </Tooltip>
+                        {/* </Tooltip> */}
                         </Typography>
                       </td>
                       </Link>

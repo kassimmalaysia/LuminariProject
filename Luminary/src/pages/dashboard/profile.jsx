@@ -52,12 +52,11 @@ const useStyles = makeStyles({
 export function Profile() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log("authuser:", authUser);
       setUser(authUser);
-      if(authUser== null)
+      if(authUser== null || undefined)
       {
         console.log(authUser)
         navigate("/auth/sign-in", { replace: true });
@@ -67,7 +66,8 @@ export function Profile() {
 
     return unsubscribe;
     
-  }, []);
+  }, [[navigate, user]]);
+
   const classes = useStyles();
   const {currentUser} = useAuthValue();
   const uid = currentUser.uid;
@@ -75,7 +75,6 @@ export function Profile() {
 
 
   const [users,setUsers] = useState([]);
-  
   const userRef = query(collection(db,"users"),where('UID','==', uid));
  
   

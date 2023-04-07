@@ -9,14 +9,32 @@ import {auth} from './firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import {AuthProvider} from './context/AuthContext'
 import { SignIn,SignOut } from "./pages/auth";
+import { Home } from "./pages/dashboard";
+import { Link, useNavigate } from "react-router-dom";
+
+
+const { localStorage } = window;
 
 
 function App() {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null)
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    } else {
     onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
-     })
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log(localStorage)
+      if(currentUser == undefined)
+      {
+        console.log(currentUser)
+        navigate("/auth/sign-in", { replace: true });
+      }
+     });
+    }
   }, [])
   return (
     <AuthProvider value={{currentUser}}>

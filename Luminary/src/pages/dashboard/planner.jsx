@@ -20,12 +20,11 @@ import { useEffect, useState } from 'react';
 export function Planner() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log("authuser:", authUser);
       setUser(authUser);
-      if(authUser== null)
+      if(authUser== null || undefined)
       {
         console.log(authUser)
         navigate("/auth/sign-in", { replace: true });
@@ -35,7 +34,8 @@ export function Planner() {
 
     return unsubscribe;
     
-  }, []);
+  }, [[navigate, user]]);
+console.log(localStorage.user)
   var year=2023;
   var modules_added=JSON.parse(JSON.stringify(plannerData));
   const [op,setOption]=useState(1);
