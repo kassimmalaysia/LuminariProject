@@ -50,7 +50,7 @@ export function Home() {
 
     return unsubscribe;
     
-  }, [[navigate, user]]);
+  }, []);
 
 
   

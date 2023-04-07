@@ -41,7 +41,7 @@ export function ModuleInfo() {
 
     return unsubscribe;
     
-  }, [[navigate, user]]);
+  }, []);
   const location = useLocation();
   const title = location.state?.title || '';
   console.log(title)

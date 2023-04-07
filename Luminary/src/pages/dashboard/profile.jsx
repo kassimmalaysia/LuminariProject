@@ -71,7 +71,7 @@ export function Profile() {
 
     return unsubscribe;
     
-  }, [[navigate, user]]);
+  }, []);
 
   const classes = useStyles();
   const {currentUser} = useAuthValue();

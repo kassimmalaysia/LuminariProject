@@ -34,7 +34,7 @@ export function Planner() {
 
     return unsubscribe;
     
-  }, [[navigate, user]]);
+  }, []);
 console.log(localStorage.user)
   var year=2023;
   var modules_added=JSON.parse(JSON.stringify(plannerData));
