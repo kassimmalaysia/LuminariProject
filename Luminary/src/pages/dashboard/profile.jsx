@@ -57,12 +57,15 @@ export function Profile() {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       console.log("authuser:", authUser);
       setUser(authUser);
+     
+      
       
       if(authUser== null || undefined)
       {
         console.log(authUser)
         navigate("/auth/sign-in", { replace: true });
       }
+      sessionStorage.setItem('uid', authUser.uid);
       
     });
 
@@ -72,7 +75,7 @@ export function Profile() {
 
   const classes = useStyles();
   const {currentUser} = useAuthValue();
-  const uid = currentUser.uid;
+  const uid =sessionStorage.getItem('uid');
   console.log(uid)
 
 
