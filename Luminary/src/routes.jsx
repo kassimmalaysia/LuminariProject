@@ -10,7 +10,7 @@ import {
   
   
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Planner, ModuleInfo, Calendar,Schedule } from "@/pages/dashboard";
+import { Home, Profile, Planner, ModuleInfo, Schedule } from "@/pages/dashboard";
 import { SignIn,SignOut} from "@/pages/auth";
 
 const icon = {
@@ -45,12 +45,7 @@ export const routes = [
         path: "/module-info",
         element: <ModuleInfo />,
       },
-      {
-        icon: <CalendarIcon {...icon} />,
-        name: "Calendar",
-        path: "/calendar",
-        element: <Calendar />,
-      },
+     
       {
         name: "",
         path: "/Schedule",

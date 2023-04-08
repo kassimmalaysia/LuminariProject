@@ -71,7 +71,7 @@ export function Profile() {
 
     return unsubscribe;
     
-  }, []);
+  });
 
   const classes = useStyles();
   const {currentUser} = useAuthValue();
@@ -90,7 +90,7 @@ export function Profile() {
       setUsers(data.docs.map((doc) => ({...doc.data()})));
     };
     getUsers();
-  },[]);
+  },[uid]);
  
   return(
    
@@ -159,7 +159,7 @@ export function Profile() {
                       &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.Matric}</span>
                       </Typography>
                     </Box>
                   </Paper>
@@ -172,7 +172,7 @@ export function Profile() {
                       &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.Programme}</span>
                       </Typography>
                     </Box>
                   </Paper>
@@ -185,7 +185,7 @@ export function Profile() {
                       &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.ProgrammeForReg}</span>
                       </Typography>
                     </Box>
                   </Paper>
@@ -198,7 +198,7 @@ export function Profile() {
                       &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.StudentType}</span>
                       </Typography>
                     </Box>
                   </Paper>
@@ -211,7 +211,7 @@ export function Profile() {
                       &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp;  {currentUser.StudentStatus}</span>
                       </Typography>
                     </Box>
                   </Paper>
@@ -224,7 +224,7 @@ export function Profile() {
                   &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp;John Doe</span>
+                      <span className={classes.content}> &nbsp;{currentUser.DirectEntry}</span>
                       </Typography>
                     </Box>
                     </Paper>
@@ -237,7 +237,7 @@ export function Profile() {
                   &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.StudyYear}</span>
                       </Typography>
                     </Box>
                     </Paper>
@@ -250,7 +250,7 @@ export function Profile() {
                   &nbsp;&nbsp;
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                      <span className={classes.content}> &nbsp; John Doe</span>
+                      <span className={classes.content}> &nbsp; {currentUser.StudyYearForReg}</span>
                       </Typography>
                     </Box>
                     </Paper>

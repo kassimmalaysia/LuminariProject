@@ -56,7 +56,6 @@ function SearchBar({ data,placeHolder }) {
     setSelectedItemIndex(-1);
   };
   const handleItemClick = (value) => {
-    console.log(value.title);
     setWordEntered(value.title);
     setFilteredData([]);
     setSelectedItemIndex(-1);
