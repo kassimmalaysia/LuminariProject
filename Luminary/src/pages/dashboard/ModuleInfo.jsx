@@ -22,10 +22,17 @@ import { useEffect, useState } from 'react';
 import { db } from "@/firebase";
 import { collection, doc, getDocs, addDoc,query, where } from "firebase/firestore";
 import { info } from "autoprefixer";
+import SearchBar from "@/components/SearchBar";
+import { useParams } from "react-router-dom";
 
 
 export function ModuleInfo() {
+  
+  const location = useLocation();
+  const title = location.state?.title || "";
+  console.log(title);
   const [user, setUser] = useState(null);
+  const[storeTitle,setTitle] = useState("")
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -36,20 +43,26 @@ export function ModuleInfo() {
         console.log(authUser)
         navigate("/auth/sign-in", { replace: true });
       }
+      setTitle(title);
+      
+ 
       
     });
 
     return unsubscribe;
     
-  }, []);
-  const location = useLocation();
-  const title = location.state?.title || '';
-  console.log(title)
-  const [newReview, setNewReview] = useState("")
+  },[]);
+  console.log(storeTitle + "Here")
+
+  
+
+const [newReview, setNewReview] = useState([])
 const [newRating, setNewRating] = useState("1/5")
 
 const [moduleInfo, setModule] = useState([])
-const moduleCollectionRef = collection(db, "moduleInfo");
+const moduleCollectionRef =query(collection(db, "moduleInfo"),where("moduleName","==", storeTitle));
+
+// const moduleCollectionRef = collection(db, "moduleInfo");
 
 
 const [reviews, setReview] = useState([])
@@ -57,9 +70,10 @@ const reviewCollectionRef = collection(db, "reviews");
   
   // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   const createReview = async () => {
-    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating});
+    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: storeTitle } );
   }
   useEffect(() => {
+   
     const getReview = async ()=>{
       const data = await getDocs(reviewCollectionRef);
       setReview(data.docs.map((doc)=>({...doc.data()})))
@@ -68,12 +82,15 @@ const reviewCollectionRef = collection(db, "reviews");
   
   const getModule = async ()=>{
     const data = await getDocs(moduleCollectionRef);
+    console.log("HERE")
     setModule(data.docs.map((doc)=>({...doc.data()})))
   };
   getReview() ;
   getModule();
   
-  }, [])
+  }, [storeTitle])
+  
+  
     return (
       <div>
    
@@ -189,8 +206,8 @@ const reviewCollectionRef = collection(db, "reviews");
         </Card>
         <div>
    
-    {reviews.map((reviews) => {
-       return(
+    
+      
         <Card>
           <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
             <Typography variant="h6" color="white">
@@ -248,7 +265,7 @@ const reviewCollectionRef = collection(db, "reviews");
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {reviews.rating}
+                            {review.rating}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -256,7 +273,7 @@ const reviewCollectionRef = collection(db, "reviews");
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {reviews.review}
+                            {review.review}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -265,7 +282,7 @@ const reviewCollectionRef = collection(db, "reviews");
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {reviews.date}
+                              {review.date}
                             </Typography>
                           </div>
                         </td>
@@ -278,8 +295,8 @@ const reviewCollectionRef = collection(db, "reviews");
             </table>
           </CardBody>
         </Card>
-       );
-        })}
+ 
+      
         
         </div>
         
