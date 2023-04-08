@@ -16,8 +16,11 @@ import moduleData from "@/data/module-data.json"
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useEffect, useState } from 'react';
+import { collection, doc, getDocs, addDoc,query, where } from "firebase/firestore";
+import { db } from "@/firebase";
 
 export function Planner() {
+  const [modules,setModules] = useState({});
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -37,16 +40,34 @@ export function Planner() {
   }, []);
 console.log(localStorage.user)
   var year=2023;
-  var modules_added=JSON.parse(JSON.stringify(plannerData));
-  const [op,setOption]=useState(1);
+  const [op,setOption]=useState(0);
   var sem=2;
+  
+
   var arr=[];
-  var modules=JSON.parse(JSON.stringify(moduleData));
+  const q=query(collection(db,"planner"),where("added","==",true));
   var cnt=0;
-  var keys=Object.keys(modules_added);
+  
   arr.push([]);
+  for(let j=0;j<=6;j++){
+    arr[cnt].push([]);
+    for(let k=0;k<=9;k++){
+        arr[cnt][j].push("")
+    }
+  }
   var lis=[];
-  function add(pos){
+  const st=async () => {
+    const data=await getDocs(q);
+    const values=data.docs.map((doc)=>({...doc.data()}))
+    var a={};
+    values.forEach((b)=>{a[b.code]=b});
+    console.log(a);
+    setModules(a);
+  }
+  st();
+  console.log(arr);
+  var module_keys=Object.keys(modules);
+  const add=(pos)=>{
     if(pos<0){
       cnt++;
       arr.push([])
@@ -56,28 +77,32 @@ console.log(localStorage.user)
             arr[cnt][j].push("")
         }
       }
+      console.log(lis)
       for(var i in lis){
-        modules_added[lis[i][0]]["index"].push(lis[i][1]);
-        for(var j in lis[i][2]){
+        modules[lis[i][0]]["optionIndex"].push(lis[i][1]);
+        for(var j in lis[i][2])
+        if(j!="added"){
           if(arr[cnt][Math.floor(j/10)][j%10].length>0){arr[cnt][Math.floor(j/10)][j%10]+="*";}
           arr[cnt][Math.floor(j/10)][j%10]+=String(lis[i][2][j]);
         }
       }
     }
     else{
-      var index_keys=Object.keys(modules[keys[pos]]["index"]);
-      for(var i in index_keys){
-        lis.push([keys[pos],index_keys[i],modules[keys[pos]]["index"][index_keys[i]]]);
+      var index_keys=Object.keys(modules[module_keys[pos]]["index"]);
+      for(var i in index_keys)
+        if(modules[module_keys[pos]]["index"][index_keys[i]].added){
+        lis.push([module_keys[pos],index_keys[i],modules[module_keys[pos]]["index"][index_keys[i]]]);
         add(pos-1);
         lis.pop();
       }
     }
   }
-  add(Object.keys(modules_added).length-1);
-  console.log(modules_added);
-  console.log(arr);
+  console.log(Object.keys(modules))
+  add(Object.keys(modules).length-1);
   var temp=[];
   for(let i=1;i<=cnt;++i) temp.push(i);
+  
+  
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
@@ -111,13 +136,13 @@ console.log(localStorage.user)
               </thead>
               
               <tbody>
-                {()=>{console.log(modules_added)}}
+                {()=>{console.log(modules)}}
                 {
-                  Object.values(modules_added).map((value)=>
+                  Object.values(modules).map((value)=>
 
-                  <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location=value.path}}>
+                  <tr className='border-2 border-gray-300 w-full h-10 hover:bg-gray-300 hover:cursor-pointer' onClick={()=>{location="/Modules/"+value.code}}>
                     <th>{value.code}</th>
-                    <th>{value.index[op]}</th>
+                    <th>{value.optionIndex[op]}</th>
                     <th>{value.moduleName}</th>
                     <th>{value.au}</th>
                     <th>{value.examSchedule}</th>
@@ -132,6 +157,7 @@ console.log(localStorage.user)
       </Card>
     </div>
   );
+  
 }
 
 export default Planner;
