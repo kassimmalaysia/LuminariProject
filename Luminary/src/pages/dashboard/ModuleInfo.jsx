@@ -49,32 +49,31 @@ export function ModuleInfo() {
 const [newRating, setNewRating] = useState("1/5")
 
 const [moduleInfo, setModule] = useState([])
-const moduleCollectionRef = query(collection(db, "moduleInfo"),where("moduleName", "==", title));
+const moduleCollectionRef = collection(db, "moduleInfo");
 
 
 const [reviews, setReview] = useState([])
-const reviewCollectionRef = query(collection(db, "reviews"),where("title", "==", title));
+const reviewCollectionRef = collection(db, "reviews");
   
   // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   const createReview = async () => {
     await addDoc(reviewCollectionRef, {review: newReview, rating: newRating});
   }
   useEffect(() => {
-    
-  
     const getReview = async ()=>{
       const data = await getDocs(reviewCollectionRef);
       setReview(data.docs.map((doc)=>({...doc.data()})))
-    }
-    getReview()  
+    };
+   
   
   const getModule = async ()=>{
     const data = await getDocs(moduleCollectionRef);
     setModule(data.docs.map((doc)=>({...doc.data()})))
-  }
-  getModule()
+  };
+  getReview() ;
+  getModule();
   
-  }, [moduleCollectionRef,reviewCollectionRef])
+  }, [])
     return (
       <div>
    
