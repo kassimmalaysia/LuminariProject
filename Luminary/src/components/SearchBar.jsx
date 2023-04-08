@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import "./SearchBar.css"
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
-import { ModuleInfo } from "@/pages/dashboard"; 
-import ModuleData from "@/data/module-data.json"
+
 import { Link, useNavigate } from "react-router-dom";
+import { ModuleInfo } from "@/pages/dashboard";
+
 
 
 
@@ -12,8 +13,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SearchBar({ data,placeHolder }) {
   const [filteredData, setFilteredData] = useState([]);
+  const [selectedModule, setSelectedModule] = useState(null);
   const [wordEntered, setWordEntered] = useState("");
-  var module_data=JSON.parse(JSON.stringify(ModuleData));
+ 
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const navigate = useNavigate();
   // Add state variables for advanced search options
@@ -54,14 +56,18 @@ function SearchBar({ data,placeHolder }) {
     setSelectedItemIndex(-1);
   };
   const handleItemClick = (value) => {
-    const title = value.title
+    console.log(value.title);
     setWordEntered(value.title);
     setFilteredData([]);
     setSelectedItemIndex(-1);
-    navigate("/dashboard/module-info", { replace: true ,state: { title: title } });
+    setSelectedModule(value);
+    navigate("/dashboard/module-info", { replace: true, state: {title: value.title}});
+ 
+   
    
     ;
   };
+  
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       if (selectedItemIndex !== -1) {
@@ -134,10 +140,12 @@ function SearchBar({ data,placeHolder }) {
                 
                 {/*  */}
                 <p>
-                  {value.title} 
+                
+                {value.title} 
                 </p>
                
               </a>
+              
              
               
             );

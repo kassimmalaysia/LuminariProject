@@ -19,13 +19,14 @@ import { db } from "@/firebase";
 import { collection, doc, getDocs} from "firebase/firestore";
 
 export function Schedule() {
- 
+ const [moduleDetail,setDetail] = useState([])
+ const detailCollectionRef = collection(db, "moduleDetail");
   useEffect(() => {
   
 
     const getDetail = async ()=>{
       const data = await getDocs(detailCollectionRef);
-      setDetail(data.docs.map((doc)=>({...doc.data(), id: doc.id})))
+      setDetail(data.docs.map((doc)=>({...doc.data()})))
     }
     getDetail()  
   }, [])
