@@ -29,7 +29,7 @@ export function Schedule() {
   
 
     const getDetail = async ()=>{
-      const data = await getDocs(query(detailCollectionRef),where("module","==",title));
+      const data = await getDocs(query(detailCollectionRef,where("module","==",title)));
       setDetail(data.docs.map((doc)=>({...doc.data()})))
     }
     getDetail()  
