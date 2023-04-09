@@ -16,22 +16,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useEffect, useState } from 'react';
 import { db } from "@/firebase";
-import { collection, doc, getDocs} from "firebase/firestore";
+import { collection, doc, getDocs,query,where} from "firebase/firestore";
+import { useLocation } from "react-router-dom";
 
 export function Schedule() {
+  const location = useLocation();
+  const title = location.state?.title || "";
+  console.log(title);
  const [moduleDetail,setDetail] = useState([])
  const detailCollectionRef = collection(db, "moduleDetail");
   useEffect(() => {
   
 
     const getDetail = async ()=>{
-      const data = await getDocs(detailCollectionRef);
+      const data = await getDocs(query(detailCollectionRef),where("module","==",title));
       setDetail(data.docs.map((doc)=>({...doc.data()})))
     }
     getDetail()  
   }, [])
   
   return (
+    <div>
+ 
+  {moduleDetail.map((det) => {
+     return(
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
@@ -76,7 +84,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {detail.module}
+                              {det.module}
                             </Typography>
                           </div>
                         </div>
@@ -87,7 +95,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {detail.type}
+                              {det.type}
                             </Typography>
               
                       </td>
@@ -97,7 +105,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {detail.time}
+                              {det.time}
                             </Typography>
                       </td>
                       <td className={className}>
@@ -106,7 +114,7 @@ export function Schedule() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {detail.venue}
+                              {det.venue}
                             </Typography>
                       </td>
                       <Link to = "/dashboard/planner" >
@@ -132,6 +140,11 @@ export function Schedule() {
       </Card>
     </div>
   );
+     
+})}
+      
+</div>
+  );
 }
 
-export default Schedule;
+export default Schedule

@@ -32,6 +32,10 @@ export function ModuleInfo() {
   const title = location.state?.title || "";
 
   const [user, setUser] = useState(null);
+
+  const handleViewSchedule = () => {
+    navigate("/dashboard/Schedule", { replace: true, state: {title: title}});
+  };
   
   const navigate = useNavigate();
   useEffect(() => {
@@ -88,7 +92,7 @@ const reviewCollectionRef = collection(db, "reviews");
   getReview() ;
   getModule();
   
-  }, [title])
+  }, [navigate,title])
   
   
     return (
@@ -180,19 +184,21 @@ const reviewCollectionRef = collection(db, "reviews");
                             {mod.description}
                           </Typography>
                         </td>
-                        <Link to = "/dashboard/Schedule" >
+                        
                         <td className={className}>
                           <Typography
                             as="a"
-                            href="#"
+                            
                             
                           >
                            
-                            <Button variant="gradient">View Schedule</Button>
+                            <Button onClick={handleViewSchedule} variant="gradient">View Schedule
+                            
+                            </Button>
                          
                           </Typography>
                         </td>
-                        </Link>
+                        
                       </tr>
                       
                     );
