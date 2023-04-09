@@ -71,15 +71,16 @@ const moduleCollectionRef =collection(db, "moduleInfo");
 
 const [reviews, setReview] = useState([])
 const reviewCollectionRef = collection(db, "reviews");
-  
+
   // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   const createReview = async () => {
-    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title } );
+    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title, date:dateString } );
+    window.location.reload();
   }
   useEffect(() => {
    
     const getReview = async ()=>{
-      const data = await getDocs(reviewCollectionRef);
+      const data =await getDocs(query(reviewCollectionRef, where("title", "==", title)));
       setReview(data.docs.map((doc)=>({...doc.data()})))
     };
    
@@ -89,8 +90,8 @@ const reviewCollectionRef = collection(db, "reviews");
     console.log(title + "" + "HERE")
     setModule(data.docs.map((doc)=>({...doc.data()})))
   };
-  getReview() ;
-  getModule();
+  Promise.all( getReview(),getModule());
+  
   
   }, [navigate,title])
   
@@ -136,7 +137,7 @@ const reviewCollectionRef = collection(db, "reviews");
               <tbody>
                 {moduleInfo.map((module, key) => {
                      const className = `py-3 px-5 ${
-                      key === moduleCollectionRef.length - 1
+                      key === moduleCollectionRef.length 
                         ? ""
                         : "border-b border-blue-gray-50"
                     }`;
@@ -231,9 +232,9 @@ const reviewCollectionRef = collection(db, "reviews");
         <Radio id="3" name="type" label="3/5" onClick={(event) => {setNewRating("3/5")}} />
         <Radio id="4" name="type" label="4/5" onClick={(event) => {setNewRating("4/5")}} />
         <Radio id="5" name="type" label="5/5" onClick={(event) => {setNewRating("5/5")}} />
-            <Tooltip>
-        <Button onClick={createReview} variant="gradient">Submit</Button>
-      </Tooltip>
+        
+        <Button onClick={createReview}>Submit</Button>
+ 
             </div>
           </Typography>
   
