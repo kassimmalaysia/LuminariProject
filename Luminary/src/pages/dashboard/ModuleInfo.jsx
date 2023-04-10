@@ -24,12 +24,29 @@ import { collection, doc, getDocs, addDoc,query, where } from "firebase/firestor
 import { info } from "autoprefixer";
 import SearchBar from "@/components/SearchBar";
 import { useParams } from "react-router-dom";
+import { ref, onValue } from 'firebase/database';
 
 
 export function ModuleInfo() {
   
+  
   const location = useLocation();
-  const title = location.state?.title || "";
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    if (location.state?.title) {
+      sessionStorage.setItem('title', title);
+      setTitle(location.state.title);
+    } else {
+      const storedTitle = sessionStorage.getItem('title');
+      setTitle(storedTitle);
+    }
+  },[location.state,title]);
+
+  console.log(title+ "First")
+  console.log(title+  "Second")
+
+
 
   const [user, setUser] = useState(null);
 
@@ -55,7 +72,7 @@ export function ModuleInfo() {
 
     return unsubscribe;
     
-  },[]);
+  },[navigate,location]);
   
 
   
@@ -65,35 +82,34 @@ const [newRating, setNewRating] = useState("1/5")
 
 const [moduleInfo, setModule] = useState([])
 const moduleCollectionRef =collection(db, "moduleInfo");
-
-// const moduleCollectionRef = collection(db, "moduleInfo");
-
-
 const [reviews, setReview] = useState([])
 const reviewCollectionRef = collection(db, "reviews");
 
   // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   const createReview = async () => {
-    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title, date:dateString } );
+   
+    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title } );
     window.location.reload();
   }
   useEffect(() => {
+    
    
     const getReview = async ()=>{
-      const data =await getDocs(query(reviewCollectionRef, where("title", "==", title)));
+      const data =await getDocs(query(reviewCollectionRef, where("title", "==",title)));
       setReview(data.docs.map((doc)=>({...doc.data()})))
     };
    
   
   const getModule = async ()=>{
+   
     const data = await getDocs(query(moduleCollectionRef, where("moduleName", "==", title)));
-    console.log(title + "" + "HERE")
     setModule(data.docs.map((doc)=>({...doc.data()})))
   };
-  Promise.all( getReview(),getModule());
+  getReview()
+  getModule()
   
   
-  }, [navigate,title])
+  }, [title,location.state])
   
   
     return (
