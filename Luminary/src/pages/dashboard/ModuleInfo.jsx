@@ -84,11 +84,12 @@ const [moduleInfo, setModule] = useState([])
 const moduleCollectionRef =collection(db, "moduleInfo");
 const [reviews, setReview] = useState([])
 const reviewCollectionRef = collection(db, "reviews");
+const currentDate = new Date().toLocaleDateString();
 
   // I passed in the title from Search bar here. You can use this as to fetch the relevant data.
   const createReview = async () => {
    
-    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title } );
+    await addDoc(reviewCollectionRef, {review: newReview, rating: newRating, title: title, date: currentDate} );
     window.location.reload();
   }
   useEffect(() => {
