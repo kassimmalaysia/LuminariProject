@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useEffect, useState } from 'react';
 import { db } from "@/firebase";
-import { collection, doc, getDocs,query,where} from "firebase/firestore";
+import { collection, doc, updateDoc, getDocs,query,where} from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 
 export function Schedule() {
@@ -25,11 +25,22 @@ export function Schedule() {
   console.log(title);
  const [moduleDetail,setDetail] = useState([])
  const detailCollectionRef = collection(db, "moduleDetail");
+ const moduleAddedRef = collection(db, 'planner');
+
+ const toggleModule = async (title) => {
+  console.log(title);
+  const q=query(collection(db,"planner"),where("code","==",title));
+  const data = await getDocs(q);
+  console.log(q);
+  data.docs.map(async (d) => {await updateDoc(doc(db,"planner", d.id), {include: true});})
+  window.location.reload();
+}
   useEffect(() => {
   
 
     const getDetail = async ()=>{
       const data = await getDocs(query(detailCollectionRef,where("module","==",title)));
+      console.log(data);
       setDetail(data.docs.map((doc)=>({...doc.data()})))
     }
     getDetail()  
@@ -125,7 +136,11 @@ export function Schedule() {
                          
                         >
                           {/* <Tooltip> */}
-                          <Button variant="gradient">Add To Timetable</Button>
+                          <Button onClick={() =>
+                            toggleModule(title)} variant="gradient">
+  {"Add to Timetable"}
+</Button>
+
                         {/* </Tooltip> */}
                         </Typography>
                       </td>
