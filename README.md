@@ -10,7 +10,7 @@ A website called Luminary to help NTU students to better plan their timetable mo
 ![image](https://user-images.githubusercontent.com/101180214/232194245-f4659161-5564-41af-80f1-f0af1f1df326.png)
 * Student profile 
 ![image](https://user-images.githubusercontent.com/101180214/232194275-0f95824f-d9db-49dc-bc58-96f4e122a4b3.png)
-* module information page
+* Module information page
 ![image](https://user-images.githubusercontent.com/101180214/232194288-c8104b8c-b8b6-4afb-b8d9-3d18e8c36574.png)
 *Timetable 
 ![image](https://user-images.githubusercontent.com/101180214/232194303-3b23466c-3ce3-4764-b98a-c165ef74fafa.png)
